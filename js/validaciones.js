@@ -4,55 +4,54 @@ export function valida(input) {
     validadores[tipoDeInput](input);
   }
 
-  if (input.validity.valid) {
-    input.parentElement.classList.remove("input-container--invalid");
-    input.parentElement.querySelector(".input-message-error").innerHTML = "";
-  } else {
-    input.parentElement.classList.add("input-container--invalid");
-    input.parentElement.querySelector(".input-message-error").innerHTML =
+  if (!input.validity.valid) {
+    input.parentElement.classList.add('input-container--invalid');
+    input.parentElement.querySelector('.input-message-error').innerHTML =
       mostrarMensajeDeError(tipoDeInput, input);
+  } else {
+    input.parentElement.classList.remove('input-container--invalid');
+    input.parentElement.querySelector('.input-message-error').innerHTML = '';
   }
 }
 
 const tipoDeErrores = [
-  "valueMissing",
-  "typeMismatch",
-  "patternMismatch",
-  "customError",
+  'valueMissing',
+  'typeMismatch',
+  'patternMismatch',
+  'customError',
 ];
 
 const mensajesDeError = {
   nombre: {
-    valueMissing: "El campo nombre no puede estar vacío",
+    valueMissing: 'Este campo nombre no puede estar vacío',
   },
   email: {
-    valueMissing: "El campo correo no puede estar vacío",
-    typeMismatch: "El correo no es válido",
+    valueMissing: 'Este campo correo no puede estar vacío',
+    typeMismatch: 'El correo no es válido',
   },
   password: {
-    valueMissing: "El campo contraseña no puede estar vacío",
-    patternMismatch:
-      "Al menos 6 caracteres, máximo 12, debe contener una letra minúscula, una letra mayúscula, un número y no puede contener caracteres especiales.",
+    valueMissing: 'Este campo contraseña no puede estar vacío',
+    patternMismatch: 'Al menos 6 caracteres maximo 12, solo letras.',
   },
   nacimiento: {
-    valueMissing: "Este campo no puede estar vacío",
-    customError: "Debes tener al menos 18 años de edad",
+    valueMissing: 'Este campo nacimiento no puede estar vacío',
+    customError: 'Debes tener almenos 18 años de edad',
   },
   numero: {
-    valueMissing: "Este campo no puede estar vacío",
-    patternMismatch: "El formato requerido es XXXXXXXXXX 10 números",
+    valueMissing: 'Este campo numero no puede estar vacío',
+    patternMismatch: 'El formato requerido es XXXXXXXXXX 10 numeros',
   },
   direccion: {
-    valueMissing: "Este campo no puede estar vacío",
-    patternMismatch: "La dirección debe contener entre 10 a 40 caracteres.",
+    valueMissing: 'Este campo dirección no puede estar vacío',
+    patternMismatch: 'La dirección debe contener entre 10 a 40 caracteres',
   },
   ciudad: {
-    valueMissing: "Este campo no puede estar vacío",
-    patternMismatch: "La ciudad debe contener entre 10 a 40 caracteres.",
+    valueMissing: 'Este campo dirección no puede estar vacío',
+    patternMismatch: 'La ciudad debe contener entre 10 a 40 caracteres',
   },
   estado: {
-    valueMissing: "Este campo no puede estar vacío",
-    patternMismatch: "El estado debe contener entre 10 a 40 caracteres.",
+    valueMissing: 'Este campo dirección no puede estar vacío',
+    patternMismatch: 'El estado debe contener entre 10 a 40 caracteres',
   },
 };
 
@@ -61,12 +60,12 @@ const validadores = {
 };
 
 function mostrarMensajeDeError(tipoDeInput, input) {
-  let mensaje = "";
+  let mensaje = '';
   tipoDeErrores.forEach((error) => {
     if (input.validity[error]) {
-      console.log(tipoDeInput, error);
-      console.log(input.validity[error]);
-      console.log(mensajesDeError[tipoDeInput][error]);
+      //   console.log(tipoDeInput, error);
+      //   console.log(input.validity[error]);
+      //   console.log(mensajesDeError[tipoDeInput][error]);
       mensaje = mensajesDeError[tipoDeInput][error];
     }
   });
@@ -75,20 +74,20 @@ function mostrarMensajeDeError(tipoDeInput, input) {
 
 function validarNacimiento(input) {
   const fechaCliente = new Date(input.value);
-  let mensaje = "";
-  if (!mayorDeEdad(fechaCliente)) {
-    mensaje = "Debes tener al menos 18 años de edad";
-  }
+  let mensaje = '';
 
+  if (!mayorDeEdad(fechaCliente)) {
+    mensaje = 'Debes tener almenos 18 años de edad';
+  }
   input.setCustomValidity(mensaje);
 }
 
-function mayorDeEdad(fecha) {
+function mayorDeEdad(fechaCliente) {
   const fechaActual = new Date();
   const diferenciaFechas = new Date(
-    fecha.getUTCFullYear() + 18,
-    fecha.getUTCMonth(),
-    fecha.getUTCDate()
+    fechaCliente.getUTCFullYear() + 18,
+    fechaCliente.getUTCMonth(),
+    fechaCliente.getUTCDate()
   );
   return diferenciaFechas <= fechaActual;
 }
